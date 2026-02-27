@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\Admin\PetugasController;
 use App\Http\Controllers\Admin\PeminjamController;
 use App\Http\Controllers\Admin\BukuController;
@@ -156,6 +157,15 @@ Route::get('/dashboard', function () {
          Route::get('/ulasan', [UlasanController::class, 'index'])
         ->name('ulasan.index');
 
+        // VALIDASI (ADMIN)
+Route::get('/approval', [ApprovalController::class, 'index'])
+    ->name('approval.index');
+
+Route::post('/approval/{id}/approve', [ApprovalController::class, 'approve'])
+    ->name('approval.approve');
+
+Route::post('/approval/{id}/tolak', [ApprovalController::class, 'tolak'])
+    ->name('approval.tolak');
     });
 
 /*
@@ -288,6 +298,16 @@ Route::middleware(['auth', 'role:petugas'])
         ->name('laporan.show');
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+
+    //VALIDASI
+    
+Route::get('/approval', [ApprovalController::class, 'index'])
+    ->name('approval.index');
+Route::post('/approval/{id}/approve', [ApprovalController::class, 'approve'])
+    ->name('approval.approve');
+Route::post('/approval/{id}/tolak', [ApprovalController::class, 'tolak'])
+    ->name('approval.tolak');
+
 });
 
 require __DIR__.'/auth.php';

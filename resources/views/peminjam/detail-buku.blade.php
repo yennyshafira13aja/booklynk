@@ -129,7 +129,7 @@
 
 @forelse($ulasans as $ulasan)
 <div class="border-b py-2">
-    <p class="font-semibold">{{ $ulasan->user->name }}</p>
+   <p class="font-semibold">{{ optional($ulasan->user)->name ?? 'User tidak ditemukan' }}</p>
     <p>Rating: {{ $ulasan->rating }} ⭐</p>
     <p>{{ $ulasan->review }}</p>
 </div>

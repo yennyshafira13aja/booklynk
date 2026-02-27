@@ -46,17 +46,30 @@
 
             <!-- STATUS -->
             <p class="mt-2"><b>Status :</b><br>
-                @if($laporan->status == 'dipinjam')
-                    <span class="bg-indigo-700 text-white px-3 py-1 rounded text-xs">
-                        Dipinjam
-                    </span>
-                @else
-                    <span class="bg-green-500 text-white px-3 py-1 rounded text-xs">
-                        Dikembalikan
-                    </span>
-                @endif
-            </p>
 
+    @if($laporan->status == 'menunggu')
+        <span class="bg-yellow-400 text-white px-3 py-1 rounded text-xs">
+            Menunggu
+        </span>
+
+    @elseif($laporan->status == 'dipinjam')
+        <span class="bg-indigo-600 text-white px-3 py-1 rounded text-xs">
+            Dipinjam
+        </span>
+
+    @elseif($laporan->status == 'dikembalikan')
+        <span class="bg-green-500 text-white px-3 py-1 rounded text-xs">
+            Dikembalikan
+        </span>
+
+    @elseif($laporan->status == 'ditolak')
+        <span class="bg-red-500 text-white px-3 py-1 rounded text-xs">
+            Ditolak
+        </span>
+
+    @endif
+
+</p>
             <!-- BUTTON -->
             <div class="mt-6">
                 <a href="{{ route('admin.laporan.index') }}"

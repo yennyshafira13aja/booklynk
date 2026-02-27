@@ -51,6 +51,13 @@
                     Laporan
                 </a>
 
+                 <a href="{{ route('petugas.approval.index') }}"
+                class="{{ request()->routeIs('petugas.approval.*')
+                        ? 'text-blue-600 font-semibold border-b-2 border-blue-600'
+                        : 'text-gray-700 hover:text-blue-600' }}">
+                    Validasi
+                </a>
+
                 <a href="{{ route('profile') }}" class="text-xl hover:text-indigo-600">
                     👤
                 </a>

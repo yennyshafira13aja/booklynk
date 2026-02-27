@@ -5,34 +5,47 @@
 <div class="max-w-6xl mx-auto px-16 py-10">
 
     <h2 class="text-xl italic text-[#1B2C8D] mb-8">
-    ✨ <span class="bg-[#FFD1E4] px-2 inline-block">Riwayat Buku</span> ✨
-</h2>
+        ✨ <span class="bg-[#FFD1E4] px-2 inline-block">Riwayat Buku</span> ✨
+    </h2>
 
     <div class="grid grid-cols-5 gap-8">
         @forelse($riwayats as $riwayat)
 
         <div>
-    <img src="{{ asset('images/buku/'.$riwayat->buku->cover) }}"
-         class="w-36 h-52 object-cover rounded shadow">
+            <img src="{{ asset('images/buku/'.$riwayat->buku->cover) }}"
+                 class="w-36 h-52 object-cover rounded shadow">
 
-    <h3 class="mt-2 font-semibold uppercase text-sm">
-        {{ $riwayat->buku->judul }}
-    </h3>
+            <h3 class="mt-2 font-semibold uppercase text-sm">
+                {{ $riwayat->buku->judul }}
+            </h3>
 
-    <p class="text-sm text-gray-600">
-        {{ $riwayat->buku->pengarang }}
-    </p>
+            <p class="text-sm text-gray-600">
+                {{ $riwayat->buku->pengarang }}
+            </p>
 
-@if($riwayat->status == 'dipinjam')
-<button onclick="openModal({{ $riwayat->id }})"
-        class="text-gray-400 hover:text-blue-600">
-    ↩
-</button>
-@else
-<p class="text-green-600 text-sm mt-2">✔ Dikembalikan</p>
-@endif
+            {{-- STATUS --}}
+            @if($riwayat->status == 'menunggu')
+                <span class="text-yellow-500 text-sm">Menunggu</span>
 
-</div>
+            @elseif($riwayat->status == 'dipinjam')
+                <span class="text-blue-500 text-sm">Dipinjam</span>
+
+            @elseif($riwayat->status == 'dikembalikan')
+                <span class="text-green-500 text-sm">Dikembalikan</span>
+
+            @elseif($riwayat->status == 'ditolak')
+                <span class="text-red-500 text-sm">Ditolak</span>
+            @endif
+
+            {{-- TOMBOL KEMBALIKAN --}}
+            @if($riwayat->status == 'dipinjam')
+                <button onclick="openModal({{ $riwayat->id }})"
+                    class="mt-2 bg-green-500 text-white px-3 py-1 rounded text-sm">
+                    Kembalikan
+                </button>
+            @endif
+
+        </div>
 
         @empty
             <p class="text-gray-500">Belum ada riwayat peminjaman</p>
@@ -57,11 +70,12 @@
         </h2>
 
         <p class="text-gray-700 mb-6">
-            Apakah Anda akan kembalikan item ini dari daftar riwayat?
+            Apakah Anda yakin ingin mengembalikan buku ini?
         </p>
 
         <form id="formKembali" method="POST">
             @csrf
+
             <button class="bg-[#2E3FA3] text-white px-6 py-2 rounded-lg">
                 Kembalikan
             </button>
@@ -70,13 +84,11 @@
     </div>
 </div>
 
-
 <!-- FOOTER -->
 <footer class="bg-[#CEE5D5] pt-12">
 
     <div class="max-w-6xl mx-auto px-16 grid md:grid-cols-3 gap-10">
 
-        <!-- LEFT -->
         <div>
             <h2 class="text-3xl font-bold mb-3">BookLynk</h2>
             <p class="text-gray-800 leading-relaxed mb-4">
@@ -85,7 +97,6 @@
                 meningkatkan minat membaca.
             </p>
 
-            <!-- SOCIAL -->
             <div class="flex gap-4 text-lg">
                 <span>f</span>
                 <span>◎</span>
@@ -93,7 +104,6 @@
             </div>
         </div>
 
-        <!-- CENTER -->
         <div>
             <h3 class="font-semibold mb-3">Help</h3>
             <p>FAQ</p>
@@ -101,7 +111,6 @@
             <p>Offers</p>
         </div>
 
-        <!-- RIGHT -->
         <div>
             <h3 class="font-semibold mb-3">Contact</h3>
             <p>Whatsapp : +62 882-9396-6933</p>
@@ -110,7 +119,6 @@
 
     </div>
 
-    <!-- BOTTOM BAR -->
     <div class="mt-10 border-t border-gray-500">
         <div class="bg-[#2F6F7E] text-white text-center py-3 text-sm">
             ©2026 BookLynk
@@ -118,7 +126,6 @@
     </div>
 
 </footer>
-
 
 <script>
 function openModal(id) {

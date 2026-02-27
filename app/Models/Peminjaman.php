@@ -20,13 +20,13 @@ class Peminjaman extends Model
     ];
 
         public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+{
+    return $this->belongsTo(User::class);
+}
 
-    public function buku()
-    {
-    return $this->belongsTo(\App\Models\Buku::class);
-    }
+public function buku()
+{
+    return $this->belongsTo(Buku::class);
+}
 
 }

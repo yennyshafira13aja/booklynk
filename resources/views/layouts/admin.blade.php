@@ -56,6 +56,13 @@
                     Laporan
                 </a>
 
+                <a href="{{ route('admin.approval.index') }}"
+                class="{{ request()->routeIs('admin.approval.*')
+                        ? 'text-blue-600 font-semibold border-b-2 border-blue-600'
+                        : 'text-gray-700 hover:text-blue-600' }}">
+                    Validasi
+                </a>
+
                 <a href="{{ route('admin.ulasan.index') }}"
                    class="{{ request()->routeIs('admin.ulasan.index')
                         ? 'text-blue-600 font-semibold border-b-2 border-blue-600'

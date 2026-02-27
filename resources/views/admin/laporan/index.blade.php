@@ -62,8 +62,14 @@
                     </td>
 
         <td class="border px-3 py-2 text-center">
-    @if($laporan->status == 'dipinjam')
-        <span class="bg-indigo-700 text-white px-3 py-1 rounded-full text-xs">
+
+    @if($laporan->status == 'menunggu')
+        <span class="bg-yellow-400 text-white px-3 py-1 rounded-full text-xs">
+            Menunggu
+        </span>
+
+    @elseif($laporan->status == 'dipinjam')
+        <span class="bg-indigo-600 text-white px-3 py-1 rounded-full text-xs">
             Dipinjam
         </span>
 
@@ -72,7 +78,13 @@
             Dikembalikan
         </span>
 
+    @elseif($laporan->status == 'ditolak')
+        <span class="bg-red-500 text-white px-3 py-1 rounded-full text-xs">
+            Ditolak
+        </span>
+
     @endif
+
 </td>
                     <td class="border px-3 py-2 text-center">
     <a href="{{ route('admin.laporan.show', $laporan->id) }}"

@@ -53,57 +53,83 @@
 
             <h2 class="text-xl font-bold mb-6">Peminjaman Terbaru</h2>
 
-            @forelse($peminjamanTerbaru as $item)
+@forelse($peminjamanTerbaru as $item)
 
-            <div class="flex justify-between items-center py-4 border-b last:border-0">
+<div class="flex justify-between items-center py-4 border-b last:border-0">
 
-                <div>
-                    @if($item->status == 'dipinjam')
-                        <p>
-                            <span class="font-semibold">{{ $item->user->name }}</span>
-                            meminjam
-                            <span class="text-blue-600 font-semibold">
-                                "{{ $item->buku->judul }}"
-                            </span>
-                        </p>
+    <div>
+        @if($item->status == 'menunggu')
+            <p>
+                <span class="font-semibold">{{ $item->user->name }}</span>
+                mengajukan peminjaman
+                <span class="text-yellow-600 font-semibold">
+                    "{{ $item->buku->judul }}"
+                </span>
+            </p>
 
-                        <p class="text-sm text-gray-500">
-                            {{ \Carbon\Carbon::parse($item->tanggal_pinjam)->format('d M Y') }}
-                            • Kembali
-                            {{ \Carbon\Carbon::parse($item->tanggal_kembali)->format('d M Y') }}
-                        </p>
-                    @else
-                        <p>
-                            <span class="font-semibold">{{ $item->user->name }}</span>
-                            mengembalikan
-                            <span class="text-green-600 font-semibold">
-                                "{{ $item->buku->judul }}"
-                            </span>
-                        </p>
+            <p class="text-sm text-gray-500">
+                {{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}
+            </p>
 
-                        <p class="text-sm text-gray-500">
-                            {{ \Carbon\Carbon::parse($item->updated_at)->diffForHumans() }}
-                        </p>
-                    @endif
-                </div>
+        @elseif($item->status == 'dipinjam')
+            <p>
+                <span class="font-semibold">{{ $item->user->name }}</span>
+                meminjam
+                <span class="text-blue-600 font-semibold">
+                    "{{ $item->buku->judul }}"
+                </span>
+            </p>
 
-                <div>
-                    @if($item->status == 'dipinjam')
-                        <span class="bg-indigo-600 text-white px-4 py-1 rounded-full text-sm">
-                            Dipinjam
-                        </span>
-                    @else
-                        <span class="bg-green-500 text-white px-4 py-1 rounded-full text-sm">
-                            Dikembalikan
-                        </span>
-                    @endif
-                </div>
+            <p class="text-sm text-gray-500">
+                {{ \Carbon\Carbon::parse($item->tanggal_peminjaman)->format('d M Y') }}
+                • Kembali
+                {{ \Carbon\Carbon::parse($item->tanggal_pengembalian)->format('d M Y') }}
+            </p>
 
-            </div>
+        @elseif($item->status == 'dikembalikan')
+            <p>
+                <span class="font-semibold">{{ $item->user->name }}</span>
+                mengembalikan
+                <span class="text-green-600 font-semibold">
+                    "{{ $item->buku->judul }}"
+                </span>
+            </p>
 
-            @empty
-                <p class="text-gray-500">Belum ada aktivitas</p>
-            @endforelse
+            <p class="text-sm text-gray-500">
+                {{ \Carbon\Carbon::parse($item->updated_at)->diffForHumans() }}
+            </p>
+
+        @elseif($item->status == 'ditolak')
+            <p>
+                <span class="font-semibold">{{ $item->user->name }}</span>
+                ditolak meminjam
+                <span class="text-red-600 font-semibold">
+                    "{{ $item->buku->judul }}"
+                </span>
+            </p>
+
+            <p class="text-sm text-gray-500">
+                {{ \Carbon\Carbon::parse($item->updated_at)->diffForHumans() }}
+            </p>
+        @endif
+    </div>
+
+    <div>
+        <span class="px-4 py-1 rounded-full text-sm text-white
+            @if($item->status == 'menunggu') bg-yellow-500
+            @elseif($item->status == 'dipinjam') bg-blue-600
+            @elseif($item->status == 'dikembalikan') bg-green-500
+            @elseif($item->status == 'ditolak') bg-red-500
+            @endif">
+            {{ ucfirst($item->status) }}
+        </span>
+    </div>
+
+</div>
+
+@empty
+<p class="text-gray-500">Belum ada aktivitas</p>
+@endforelse
 
         </div>
 
